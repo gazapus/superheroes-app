@@ -4,10 +4,10 @@ import { StyleSheet, Text, ImageBackground, TouchableHighlight, Dimensions, View
 export default function (props) {
     return (
         <View style={styles.cardContainer}>
-            <TouchableHighlight>
+            <TouchableHighlight onPress={() => props.onPress(props.heroDetails)}>
                 <ImageBackground
                     style={styles.cardImage}
-                    source={{uri: props.imageUri}}
+                    source={{uri: props.heroDetails.image.url}}
                     imageStyle={{   // Need this for put the image on the top
                         resizeMode: "cover",
                         height: 220, 
@@ -15,7 +15,7 @@ export default function (props) {
                     }}
                 >
                     <Text style={styles.cardText}>
-                        {props.title}
+                        {props.heroDetails.name}
                     </Text>
                 </ImageBackground>
             </TouchableHighlight>

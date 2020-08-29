@@ -3,7 +3,7 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 
 export default function (props) {
     return (
-        <ScrollView>
+        <ScrollView style={styles.scrollArea}>
             <View style={styles.cardsContainer}>
                 {props.children}
             </View>
@@ -13,9 +13,12 @@ export default function (props) {
 
 const styles = StyleSheet.create({
     cardsContainer: {
-        width: '100%',
+        width: '99%',
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+    },
+    scrollArea: {
+        width: '100%'
     }
 });
