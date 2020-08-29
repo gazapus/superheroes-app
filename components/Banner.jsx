@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         height: Dimensions.get('screen').height * 0.22,
         backgroundColor: 'red',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     title: {
         fontSize: 30,
