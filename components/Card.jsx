@@ -10,7 +10,7 @@ export default function (props) {
                     source={{uri: props.heroDetails.image.url}}
                     imageStyle={{   // Need this for put the image on the top
                         resizeMode: "cover",
-                        height: 220, 
+                        height: 150, 
                         top: 0
                     }}
                 >

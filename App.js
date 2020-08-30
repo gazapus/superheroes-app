@@ -1,7 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import Constants from 'expo-constants';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ActivityIndicator,
+  ScrollView,
+  RefreshControl
+} from 'react-native';
 import Banner from './components/Banner';
 import SearchBar from './components/SearchBar';
 import Card from './components/Card';
@@ -13,50 +20,60 @@ import Modal from './components/Modal';
 export default function App() {
   const [prueba, setPrueba] = useState('X');
   const [heroDetails, setHeroDetails] = useState({});
-  const [heroesCards, setHeroesCards] = useState(<ActivityIndicator style={{margin: 30}} size="large" color="#C9C927"/>)
+  const [heroesCards, setHeroesCards] = useState(<ActivityIndicator style={{ margin: 30 }} size="large" color="#C9C927" />);
+  const [refreshing, setRefreshing] = React.useState(true);
 
-  function generateRandomNumbers() {
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getRandomHeroes();
+  }, []);
+
+  function generateRandomNumbers(quantity) {
     let randomNumbers = new Set([]);
-    while (randomNumbers.size < 15) {
+    while (randomNumbers.size < quantity) {
       randomNumbers.add(Math.round(Math.random() * 731));
     }
     return randomNumbers.values();
   }
-  
-  useEffect( () => {
-    async function fetchData() {
-      let randomNumbers = generateRandomNumbers();
-      try {
-        let resolves = await Promise.all([
-          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-        ]);
-        let heroesData = await Promise.all(resolves.map(function (response) {
-          return response.json();
-        }));
-        putHeroesCards(heroesData)
-      } catch (e) {
-        console.log(e);
-        setHeroesCards(
-          <Text style={{ color: 'red' }}>No se pudo cargar los datos</Text>
-        );
-      }
+
+  async function getRandomHeroes() {
+    let randomNumbers = generateRandomNumbers(15);
+    try {
+      let resolves = await Promise.all([
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+      ]);
+      let heroesData = await Promise.all(resolves.map(function (response) {
+        return response.json();
+      }));
+      putHeroesCards(heroesData);
+      setRefreshing(false);
+    } catch (e) {
+      setHeroesCards(
+        <Text style={{ color: 'red' }}>No se pudo cargar los datos</Text>
+      );
+      setRefreshing(false);
     }
-    fetchData();
+  }
+
+  useEffect(() => {
+    getRandomHeroes();
+    setRefreshing(false);
   }, []);
+
 
   function putHeroesCards(heroesData) {
     let newHeroesCards;
@@ -77,7 +94,13 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      stickyHeaderIndices={[3]}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <StatusBar backgroundColor="#C9C927" barStyle='ligth-content' />
       <Modal
         heroDetails={heroDetails}
@@ -89,16 +112,16 @@ export default function App() {
       <CardsContainer>
         {heroesCards}
       </CardsContainer>
-    </View>
+    </ScrollView>
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#1C0633',
-    alignItems: 'center',
-    padding: 1,
     marginTop: Constants.statusBarHeight,
-  },
+    padding: 1,
+    width: '100%',
+    backgroundColor: '#1C0633',
+  }
 });
