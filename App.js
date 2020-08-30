@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import Constants from 'expo-constants';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import Banner from './components/Banner';
 import SearchBar from './components/SearchBar';
 import Card from './components/Card';
@@ -13,7 +13,7 @@ import Modal from './components/Modal';
 export default function App() {
   const [prueba, setPrueba] = useState('X');
   const [heroDetails, setHeroDetails] = useState({});
-  const [heroesCards, setHeroesCards] = useState(<Text style={{ color: 'white' }}>Cargando</Text>)
+  const [heroesCards, setHeroesCards] = useState(<ActivityIndicator style={{margin: 30}} size="large" color="#C9C927"/>)
 
   function generateRandomNumbers() {
     let randomNumbers = new Set([]);
@@ -22,42 +22,7 @@ export default function App() {
     }
     return randomNumbers.values();
   }
-  /*
-    useEffect(() => {
-      let randomNumbers = generateRandomNumbers();
-      Promise.all([
-        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-      ])
-        .then((responses) => {
-          return Promise.all(responses.map(function (response) {
-            return response.json();
-          }));
-        })
-        .then((data) => {
-          console.log("datos cargados")
-          setHeroes(data);
-          putHeroesCards();
-        })
-        .catch((error) => {
-          console.log(error);
-          setErrorMessage();
-        })
-    }, []);
-  */
+  
   useEffect( () => {
     async function fetchData() {
       let randomNumbers = generateRandomNumbers();

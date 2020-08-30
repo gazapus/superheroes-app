@@ -32,10 +32,10 @@ export default function (props) {
 const styles = StyleSheet.create({
     searchBarContainer: {
         width: '95%',
-        height: Dimensions.get('screen').height * 0.07,
+        height: Dimensions.get('screen').height * 0.065,
         borderColor: 'black',
         borderStyle: 'solid',
-        borderWidth: 3,
+        borderWidth: 2,
         borderRadius: 10,
         borderColor: '#A6A63D',
         flex: 0,
@@ -47,12 +47,13 @@ const styles = StyleSheet.create({
     },
     searchInput: {
         height: '98%',
-        fontSize: 22,
+        fontSize: 20,
         flexGrow: 1,
-        color: '#C9C927'
+        color: '#C9C927',
+        textAlign: 'center'
     },
     searchImage: {
-        width: Dimensions.get('screen').height * 0.05,
-        height: Dimensions.get('screen').height * 0.05,
+        width: Dimensions.get('screen').height * 0.045,
+        height: Dimensions.get('screen').height * 0.045,
     }
 });
