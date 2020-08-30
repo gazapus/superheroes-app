@@ -13,7 +13,6 @@ import Modal from './components/Modal';
 export default function App() {
   const [prueba, setPrueba] = useState('X');
   const [heroDetails, setHeroDetails] = useState({});
-  const [heroes, setHeroes] = useState([]);
   const [heroesCards, setHeroesCards] = useState(<Text style={{ color: 'white' }}>Cargando</Text>)
 
   function generateRandomNumbers() {
@@ -23,46 +22,80 @@ export default function App() {
     }
     return randomNumbers.values();
   }
-
-  useEffect(() => {
-    let randomNumbers = generateRandomNumbers();
-    Promise.all([
-      fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-      fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-      fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-      fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-      fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-      fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-      fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-      fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-      fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-      fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-      fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-      fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-      fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-      fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-      fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
-    ])
-      .then((responses) => {
-        return Promise.all(responses.map(function (response) {
+  /*
+    useEffect(() => {
+      let randomNumbers = generateRandomNumbers();
+      Promise.all([
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+      ])
+        .then((responses) => {
+          return Promise.all(responses.map(function (response) {
+            return response.json();
+          }));
+        })
+        .then((data) => {
+          console.log("datos cargados")
+          setHeroes(data);
+          putHeroesCards();
+        })
+        .catch((error) => {
+          console.log(error);
+          setErrorMessage();
+        })
+    }, []);
+  */
+  useEffect( () => {
+    async function fetchData() {
+      let randomNumbers = generateRandomNumbers();
+      try {
+        let resolves = await Promise.all([
+          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+          fetch('https://www.superheroapi.com/api.php/3282090465183136/' + randomNumbers.next().value),
+        ]);
+        let heroesData = await Promise.all(resolves.map(function (response) {
           return response.json();
         }));
-      })
-      .then((data) => {
-        console.log("datos cargados")
-        setHeroes(data);
-        putHeroesCards();
-      })
-      .catch((error) => {
-        console.log(error);
-        setErrorMessage();
-      })
+        putHeroesCards(heroesData)
+      } catch (e) {
+        console.log(e);
+        setHeroesCards(
+          <Text style={{ color: 'red' }}>No se pudo cargar los datos</Text>
+        );
+      }
+    }
+    fetchData();
   }, []);
 
-  function putHeroesCards() {
+  function putHeroesCards(heroesData) {
     let newHeroesCards;
-    console.log(heroes.length)
-    newHeroesCards = heroes.map(hero => {
+    newHeroesCards = heroesData.map(hero => {
       return (
         <Card
           heroDetails={hero}
@@ -74,11 +107,6 @@ export default function App() {
     setHeroesCards(newHeroesCards);
   }
 
-  function setErrorMessage() {
-    let heroesCards = <Text style={{ color: 'red' }}>No se pudo cargar los datos</Text>
-    setHeroesCards(heroesCards);
-  }
-
   function searchHero(name) {
     setPrueba(name);
   }
@@ -88,7 +116,8 @@ export default function App() {
       <StatusBar backgroundColor="#C9C927" barStyle='ligth-content' />
       <Modal
         heroDetails={heroDetails}
-        onClose={setHeroDetails}
+        setHeroDetails={setHeroDetails}
+        open={Object.entries(heroDetails).length !== 0}
       />
       <Banner />
       <SearchBar onPress={searchHero}></SearchBar>

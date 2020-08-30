@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
 export default function (props) {
+    
     return (
         <ScrollView style={styles.scrollArea}>
             <View style={styles.cardsContainer}>

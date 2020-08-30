@@ -4,13 +4,13 @@ import CardDescription from './CardDescription'
 
 export default function (props) {
     const imageUri = (props.heroDetails.image === undefined) ? '' : props.heroDetails.image.url;
-    
+
     return (
         <Modal
             animationType="fade"
             transparent={true}
-            visible={Object.entries(props.heroDetails).length !== 0}
-            onRequestClose={() => {props.onClose({})}}
+            visible={props.open}
+            onRequestClose={() => props.setHeroDetails({})}
         >
             <View style={styles.modalWindow}>
                 <View style={styles.modalContent}>
@@ -18,13 +18,13 @@ export default function (props) {
                         <ImageBackground
                             style={styles.modalImage}
                             source={{ uri: imageUri }}
-                            imageStyle= {{resizeMode : 'contain'}}
+                            imageStyle={{ resizeMode: 'contain' }}
                         />
                     </View>
                     <CardDescription heroDetails={props.heroDetails} />
                     <View>
                         <Button
-                            onPress={() => {props.onClose({})}}
+                            onPress={() => props.setHeroDetails({})}
                             title="Cerrar"
                         />
                     </View>

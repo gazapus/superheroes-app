@@ -29,7 +29,7 @@ export default function (props) {
                 );
                 break;
         }
-    });
+    }, []);
 
     return (
         <View style={styles.cardDescriptionContainer}>
