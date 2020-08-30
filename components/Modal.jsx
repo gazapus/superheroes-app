@@ -48,15 +48,13 @@ const styles = StyleSheet.create({
         width: '85%',
         paddingTop: 10,
         paddingBottom: 20
-        //height: Dimensions.get('window').height* 0.8
     },
     modalImageContainer: {
         width: '95%',
-        margin: 5
+        margin: 5,
     },
     modalImage: {
         width: '100%',
         height: Dimensions.get('window').height * 0.5,
-
     }
 });

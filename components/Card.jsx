@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         width: Dimensions.get('screen').width * 0.3,
         height: Dimensions.get('screen').width * 0.3,
         borderRadius: 5,
-        backgroundColor: 'red',
+        backgroundColor: '#190037',
         marginBottom: 10
     },
     cardImage: {

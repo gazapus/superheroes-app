@@ -3,13 +3,31 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 
 
 export default function (props) {
-    const [publisherLogo, setPublisherLogo] = useState(require('../assets/interrogation.png'))
+    const [publisherLogo, setPublisherLogo] = useState(<Text style={styles.logoText}>...</Text>)
 
     useEffect(() => {
         switch (props.heroDetails.biography.publisher) {
-            case 'Marvel Comics': setPublisherLogo(require('../assets/Marvel.png')); break;
-            case 'DC Comics': setPublisherLogo(require('../assets/DC.png')); break;
-            default: setPublisherLogo(require('../assets/interrogation.png')); break;
+            case 'Marvel Comics': 
+                setPublisherLogo(
+                    <Image
+                        style={styles.logoImage}
+                        source={require('../assets/Marvel.png')}
+                    />
+                ); break;
+            case 'DC Comics': 
+                setPublisherLogo(
+                    <Image
+                        style={styles.logoImage}
+                        source={require('../assets/DC.png')}
+                    />
+                ); break;
+            default: 
+                setPublisherLogo(
+                    <Text style={styles.logoText}>
+                        {props.heroDetails.biography.publisher}
+                    </Text>
+                );
+                break;
         }
     });
 
@@ -31,10 +49,7 @@ export default function (props) {
                 <Text>{props.heroDetails.appearance.race}</Text>
             </Text>
             <View style={styles.logoContainer}>
-                <Image
-                    style={styles.logoImage}
-                    source={publisherLogo}
-                />
+                {publisherLogo}
             </View>
         </View>
 
@@ -50,7 +65,7 @@ const styles = StyleSheet.create({
         padding: 8
     },
     title: {
-        fontSize: 20,
+        fontSize: 23,
         padding: 5,
         textTransform: 'capitalize',
         textAlign: 'center',
@@ -71,6 +86,10 @@ const styles = StyleSheet.create({
     logoImage: {
         width: 35,
         height: 35,
-        margin: 4
+        margin: 0
+    },
+    logoText: {
+        fontWeight: 'bold',
+        color: 'red',
     }
 });
