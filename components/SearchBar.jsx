@@ -11,7 +11,7 @@ export default function (props) {
                 onChangeText={newText => setText(newText)}
                 value={text}
                 maxLength={40}
-                placeholder="Buscar"
+                placeholder="Search"
                 placeholderTextColor="#78359D"
                 onSubmitEditing={ ()=> {props.onPress(text)}}
             />

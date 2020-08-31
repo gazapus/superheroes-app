@@ -37,16 +37,22 @@ export default function (props) {
                 {props.heroDetails.name}
             </Text>
             <Text style={styles.textBasic}>
-                <Text style={styles.textLabel}>Nombre: </Text>
+                <Text style={styles.textLabel}>Name: </Text>
                 <Text>{props.heroDetails.biography['full-name']}</Text>
             </Text>
             <Text style={styles.textBasic}>
-                <Text style={styles.textLabel}>Lugar de origen: </Text>
-                <Text>{props.heroDetails.biography['place-of-birth']}</Text>
+                <Text style={styles.textLabel}>Origin: </Text>
+                <Text>
+                    {(props.heroDetails.biography['place-of-birth'] !== '-') ? props.heroDetails.biography['place-of-birth'] : 'Unknown'}
+                </Text>
             </Text>
             <Text style={styles.textBasic}>
-                <Text style={styles.textLabel}>Especie: </Text>
-                <Text>{props.heroDetails.appearance.race}</Text>
+                <Text style={styles.textLabel}>Species: </Text>
+                <Text>
+                    {(props.heroDetails.appearance.race === null ||
+                      props.heroDetails.appearance.race === 'null'  
+                    ) ? 'Unknown' : props.heroDetails.appearance.race}
+                </Text>
             </Text>
             <View style={styles.logoContainer}>
                 {publisherLogo}
@@ -90,6 +96,6 @@ const styles = StyleSheet.create({
     },
     logoText: {
         fontWeight: 'bold',
-        color: 'red',
+        color: '#232ECF',
     }
 });

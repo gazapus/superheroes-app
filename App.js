@@ -6,7 +6,8 @@ import {
   Text,
   ActivityIndicator,
   ScrollView,
-  RefreshControl
+  RefreshControl,
+  Alert
 } from 'react-native';
 import Banner from './components/Banner';
 import SearchBar from './components/SearchBar';
@@ -21,6 +22,13 @@ export default function App() {
   const [heroDetails, setHeroDetails] = useState({});
   const [heroesCards, setHeroesCards] = useState(<ActivityIndicator style={{ margin: 30 }} size="large" color="#C9C927" />);
   const [refreshing, setRefreshing] = React.useState(false);
+
+  const runAlert = () => Alert.alert(
+    'No results',
+    '',
+    [{text: 'OK', onPress: () => {}}],
+    {cancelable: true});
+
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -70,13 +78,11 @@ export default function App() {
 
   async function getSearchedHero() {
     try {
-      console.log(nameSearched)
       let resolves = await fetch('https://www.superheroapi.com/api.php/3282090465183136/search/' + nameSearched);
       let heroesFound = await resolves.json();
-      console.log(heroesFound.results.length);
       putHeroesCards(heroesFound.results);
     } catch (e) {
-      console.log("Falló")
+      runAlert();
     }
   }
 
@@ -86,7 +92,11 @@ export default function App() {
   }, []);
 
   useEffect( () => {
-    getSearchedHero();
+    if(nameSearched === "") {
+      getRandomHeroes();
+    } else {
+      getSearchedHero();
+    }
   }, [nameSearched])
 
 
@@ -104,10 +114,6 @@ export default function App() {
     setHeroesCards(newHeroesCards);
   }
 
-  function searchHero(name) {
-    setNameSearched(name);
-  }
-
   return (
     <ScrollView
       style={styles.container}
@@ -123,7 +129,7 @@ export default function App() {
         open={Object.entries(heroDetails).length !== 0}
       />
       <Banner />
-      <SearchBar onPress={searchHero}></SearchBar>
+      <SearchBar onPress={setNameSearched}/>
       <CardsContainer>
         {heroesCards}
       </CardsContainer>
