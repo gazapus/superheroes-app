@@ -3,7 +3,6 @@ import Constants from 'expo-constants';
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
-  View,
   Text,
   ActivityIndicator,
   ScrollView,
@@ -18,10 +17,10 @@ import Modal from './components/Modal';
 // CREAR ARCHIVO KEYS
 
 export default function App() {
-  const [prueba, setPrueba] = useState('X');
+  const [nameSearched, setNameSearched] = useState('X');
   const [heroDetails, setHeroDetails] = useState({});
   const [heroesCards, setHeroesCards] = useState(<ActivityIndicator style={{ margin: 30 }} size="large" color="#C9C927" />);
-  const [refreshing, setRefreshing] = React.useState(true);
+  const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -69,10 +68,26 @@ export default function App() {
     }
   }
 
+  async function getSearchedHero() {
+    try {
+      console.log(nameSearched)
+      let resolves = await fetch('https://www.superheroapi.com/api.php/3282090465183136/search/' + nameSearched);
+      let heroesFound = await resolves.json();
+      console.log(heroesFound.results.length);
+      putHeroesCards(heroesFound.results);
+    } catch (e) {
+      console.log("Falló")
+    }
+  }
+
   useEffect(() => {
     getRandomHeroes();
     setRefreshing(false);
   }, []);
+
+  useEffect( () => {
+    getSearchedHero();
+  }, [nameSearched])
 
 
   function putHeroesCards(heroesData) {
@@ -90,7 +105,7 @@ export default function App() {
   }
 
   function searchHero(name) {
-    setPrueba(name);
+    setNameSearched(name);
   }
 
   return (

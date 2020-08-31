@@ -4,10 +4,6 @@ import { StyleSheet, View, TextInput, Dimensions, Image, TouchableHighlight } fr
 export default function (props) {
     const [text, setText] = useState('');
 
-    function onPress() {
-        props.onPress(text);
-    }
-
     return (
         <View style={styles.searchBarContainer}>
             <TextInput
@@ -17,9 +13,9 @@ export default function (props) {
                 maxLength={40}
                 placeholder="Buscar"
                 placeholderTextColor="#78359D"
-                onEndEditing={onPress}
+                onSubmitEditing={ ()=> {props.onPress(text)}}
             />
-            <TouchableHighlight onPress={onPress}>
+            <TouchableHighlight onPress={ ()=> {props.onPress(text)}} >
                 <Image
                     style={styles.searchImage}
                     source={require('../assets/searchicon.png')}
@@ -35,22 +31,22 @@ const styles = StyleSheet.create({
         height: Dimensions.get('screen').height * 0.065,
         borderColor: 'black',
         borderStyle: 'solid',
-        borderWidth: 2,
-        borderRadius: 10,
-        borderColor: '#A6A63D',
+        borderWidth: 1,
+        borderRadius: 0,
+        borderColor: 'rgba(166, 166, 61, 0.3)',
         flex: 0,
         flexDirection: 'row',
         alignItems: 'center',
         paddingLeft: 8,
         paddingRight: 8,
-        margin: 6
+        margin: 6,
+        backgroundColor: 'rgba(36, 7, 66, 0.9)'
     },
     searchInput: {
-        height: '98%',
         fontSize: 20,
         flexGrow: 1,
         color: '#C9C927',
-        textAlign: 'center'
+        textAlign: 'center',
     },
     searchImage: {
         width: Dimensions.get('screen').height * 0.045,
