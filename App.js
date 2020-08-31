@@ -16,7 +16,7 @@ import CardsContainer from './components/CardsContainer';
 import Modal from './components/Modal';
 
 export default function App() {
-  const [nameSearched, setNameSearched] = useState('X');
+  const [nameSearched, setNameSearched] = useState('');
   const [heroDetails, setHeroDetails] = useState({});
   const [heroesCards, setHeroesCards] = useState(<ActivityIndicator style={{ margin: 30 }} size="large" color="#C9C927" />);
   const [refreshing, setRefreshing] = React.useState(false);
@@ -90,9 +90,7 @@ export default function App() {
   }, []);
 
   useEffect( () => {
-    if(nameSearched === "") {
-      getRandomHeroes();
-    } else {
+    if(nameSearched !== "") {
       getSearchedHero();
     }
   }, [nameSearched])

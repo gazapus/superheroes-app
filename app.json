@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "superheroes",
+    "name": "SuperHeroes",
     "slug": "superheroes",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,7 +8,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#592580"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,6 +21,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "android": {
+      "package": "com.sendrarisk.superheroes"
     }
   }
 }
