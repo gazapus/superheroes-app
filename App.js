@@ -15,8 +15,6 @@ import Card from './components/Card';
 import CardsContainer from './components/CardsContainer';
 import Modal from './components/Modal';
 
-// CREAR ARCHIVO KEYS
-
 export default function App() {
   const [nameSearched, setNameSearched] = useState('X');
   const [heroDetails, setHeroDetails] = useState({});
